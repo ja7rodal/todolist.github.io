@@ -3,6 +3,7 @@ require 'make_todo'
 
 get '/' do
   @tareas = Tarea.all
+  @p = 0
   erb:index
 end
 

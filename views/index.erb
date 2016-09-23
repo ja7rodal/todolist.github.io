@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <script src="../js/jquery.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
-
+  <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="../css/style.css">
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,7 +30,12 @@
       </button>
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h1 class="panel-title">Tus Tareas Pendientes</h1>
+          <% @tareas.each do |tarea| %>
+          <% if tarea['done']== false %>
+          <% @p=@p+1 %>
+          <% end %>
+          <% end %>
+          <h1 class="panel-title">Tus Tareas Pendientes <span class="badge"><%= @p %></span></h1>
         </div>
 
         <div class="panel-body">
@@ -39,12 +44,13 @@
               <thead>
                 <th>Inicio</th>
                 <th>Tareas</th>
-                <th>Hecho</th>
+                <th>Hecho</i></th>
                 <th>Borrar</th>
               </thead>
             </tr>
             <% @tareas.each do |tarea| %>
             <% if tarea['done']== false %>
+            <% @p=@p+1 %>
             <tr>
               <td><%= tarea['created_at'][0..9] %> </td>
               <td class="tar"><%= tarea['title'] %></td>
@@ -69,12 +75,16 @@
               <% end %>
               <% end %>
             </table>
-
+            <% if @p == 0 %>
+            <p  class="text-danger">Excelente !! No tienes tareas pendientes.  </p>
+            <% end %>
           </div>
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <a data-toggle="collapse" href="#collapse1"><h1 class="panel-title">Tareas Completadas <span class="caret"></span></h1></a>
+            <a data-toggle="collapse" href="#collapse1"><h1 class="panel-title">Tareas Completadas
+
+               <span class="caret"></span></h1></a>
 
           </div>
           <div id="collapse1" class="panel-collapse collapse">
@@ -89,6 +99,7 @@
                 </tr>
                 <% @tareas.each do |tarea| %>
                 <% if tarea['done']== true %>
+
                 <tr>
                   <td><%= tarea['updated_at'][0..9] %> </td>
                   <td class="tar"><%= tarea['title'] %></td>
@@ -106,6 +117,8 @@
                 <% end %>
               </table>
 
+
+
             </div>
           </div>
         </div>
@@ -122,7 +135,7 @@
                 <div class="modal-body">
                   <p>Por favor digite la nueva tarea</p>
 
-                  <textarea class="form-control" name="task" placeholder="Tarea"></textarea>
+                  <textarea class="form-control" name="task" placeholder="Tarea" required="require"></textarea>
 
                 </div>
                 <div class="modal-footer">
