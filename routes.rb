@@ -7,7 +7,12 @@ get '/' do
 end
 
 
-post '/new'do
+post '/new' do
   Tarea.create(params[:task])
+  redirect '/'
+end
+
+post '/update' do
+  Tarea.update(params[:hecho])
   redirect '/'
 end

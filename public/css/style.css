@@ -1,6 +1,15 @@
 body {
   padding-top: 70px;
 }
-.pan-c{
-  border-color: #00e;
+
+
+
+th, td:nth-child(2),td:nth-child(3) {
+  text-align: center;
+}
+
+.hexx {
+padding: 0;
+margin:0;
+
 }
