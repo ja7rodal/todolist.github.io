@@ -16,3 +16,9 @@ post '/update' do
   Tarea.update(params[:hecho])
   redirect '/'
 end
+
+
+post '/borrar' do
+  Tarea.destroy(params[:borrar])
+  redirect '/'
+end

@@ -25,45 +25,90 @@
 
   <div class="container">
     <div>
-      <button type="button" name="button" class="btn btn-primary carrusel" data-toggle="modal" data-target="#Modal">
+      <button type="button" name="button" class="btn btn-warning carrusel" data-toggle="modal" data-target="#Modal">
         <span class="glyphicon glyphicon-plus"></span> Tarea</div><br>
       </button>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h2 class="panel-title pan-c">Tus Tareas Pendientes</h2>
-            </div>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h1 class="panel-title">Tus Tareas Pendientes</h1>
+        </div>
+
+        <div class="panel-body">
+          <table class="table">
+            <tr>
+              <thead>
+                <th>Inicio</th>
+                <th>Tareas</th>
+                <th>Hecho</th>
+                <th>Borrar</th>
+              </thead>
+            </tr>
+            <% @tareas.each do |tarea| %>
+            <% if tarea['done']== false %>
+            <tr>
+              <td><%= tarea['created_at'][0..9] %> </td>
+              <td class="tar"><%= tarea['title'] %></td>
+              <td>
+                <form class="form-group" action="/update" method="post">
+                  <input type="hidden" name="hecho" value="<%= tarea['id'] %>">
+                  <button class="btn btn-success" type="submit" name="enviar">
+                    <span class="glyphicon glyphicon-ok-sign text-default"></span></button>
+                  </form>
+                </td>
+
+                <td>
+                  <form class="form-group" action="/borrar" method="post">
+                    <input type="hidden" name="borrar" value="<%= tarea['id'] %>">
+                    <button class="btn btn-danger" type="submit" name="enviar">
+                      <span class="glyphicon glyphicon-remove-sign text-defaut"></span>
+                    </button>
+                  </form>
+
+                </td>
+              </tr>
+              <% end %>
+              <% end %>
+            </table>
+
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <a data-toggle="collapse" href="#collapse1"><h1 class="panel-title">Tareas Completadas <span class="caret"></span></h1></a>
+
+          </div>
+          <div id="collapse1" class="panel-collapse collapse">
             <div class="panel-body">
               <table class="table">
                 <tr>
                   <thead>
-                    <th>Inicio</th>
+                    <th>Finalizada</th>
                     <th>Tareas</th>
-                    <th>Status</th>
-                    <th>Hecho</th>
                     <th>Borrar</th>
                   </thead>
                 </tr>
                 <% @tareas.each do |tarea| %>
+                <% if tarea['done']== true %>
                 <tr>
-                  <td><%= tarea['created_at'][0..9] %> </td>
-                  <td><%= tarea %></td>
-                  <td><%= tarea['done'] %></td>
+                  <td><%= tarea['updated_at'][0..9] %> </td>
+                  <td class="tar"><%= tarea['title'] %></td>
                   <td>
-                    <form class="form-group" action="/update" method="post">
-                      <input type="hidden" name="hecho" value="<%= tarea['id'] %>">
-                      <button class="btn btn-success" type="submit" name="enviar">
-                      <span class="glyphicon glyphicon-ok-sign text-default"></span></button>
+                    <form class="form-group" action="/borrar" method="post">
+                      <input type="hidden" name="borrar" value="<%= tarea['id'] %>">
+                      <button class="btn btn-danger" type="submit" name="enviar">
+                        <span class="glyphicon glyphicon-remove-sign text-defaut"></span>
+                      </button>
                     </form>
 
                   </td>
-                  <td><span class="glyphicon glyphicon-remove-sign text-danger"></span></td>
                 </tr>
                 <% end %>
-
+                <% end %>
               </table>
 
             </div>
           </div>
+        </div>
 
 
         <div class="modal fade" tabindex="-1" role="dialog" id="Modal">
